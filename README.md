@@ -1,8 +1,8 @@
 # Photo API and Pinterest Clone MVC Website
 
-#### C#/.NET Core API that allows access to photo URLs. Current version: 04.01.20
+#### C#/.NET Core API that allows access to photo URLs. Current version: 04.03.20
 
-#### By Krista Rutz, Sarah "Sasa" Schwartz, Adela Darmansyah
+#### By Sarah "Sasa" Schwartz and Krista Rutz
 
 ---
 
@@ -10,109 +10,77 @@
 
 1. [Description](#description)
 2. [Setup/Installation Requirements](#installation-requirements)
-3. [Specifications](#user-stories)
-4. [Known Bugs](#known-bugs)
-5. [Technologies Used](#technologies-used)
-6. [License](#license)
+3. [API Documentation](#api-documentation)
+4. [Specifications](#user-stories)
+5. [Known Bugs](#known-bugs)
+6. [Technologies Used](#technologies-used)
+7. [License](#license)
 
 ---
 
-<details>
-  <summary>WHAT WE WORKED ON 03.30.20</summary>
-
-- **PhotoApi.Solution application**
-
-  - Scaffolding an API using .NET
-  - Adding CRUD functionality to our photo controller
-  - Using parameters in GET requests to filter results from the database
-  - Matching usernames from POSTs to PUT/DELETE requests
-  - Parsing database objects to match parameter queries (with #hashtags)
-  - Using Data Annotations, including a RegEx data expression
-  - Attempted to integrate many-to-many relationships, before realizing this is better suited to NoSQL databases
-
-</details>
-
-<details>
-  <summary>WHAT WE WORKED ON 03.31.20</summary>
-
-- **PhotoApi.Solution application**
-
-  - Reviewed weekend readings and finish this week's readings
-  - Styled our app to act like pinterest and show real photos
-  - Finished CRUD functionality with MVC
-  - Built pagination into the api photosController
-
-</details>
-
-<details>
-  <summary>WHAT WE WORKED ON 04.1.20</summary>
-
-- **PhotoApi.Solution application**
-
-  - Added ability to count the number of photo objects returned from API
-  - Access this count from our MVC and display it dynamically in the view
-  - Add pagination functionality to our MVC Client
-  - Added search by tag with compatibility with pagination
-
-</details>
-
-<details>
-  <summary>WHAT KRISTA WORKED ON 04.2.20</summary>
-
-- **PhotoApi.Solution application**
-  - Added Identity and configured EF and MySQL to PinterestClone project
-  - User authentication & authorization required for C-U-D but not R
-  - Account controller and views
-  - Some style changes to forms and image gallery
-- **Other**
-  - Team week meetings
-  - troubleshooting MySQL and .Net Core versioning
-
-</details>
-
-<details>
-  <summary>Still left to do...</summary>
-  
-  - (PinterestClone) Create MVC part of our app
-    - Users/account login (remove "fixed" username with photo posts)
-    - Index for a specific user's photos?
-  - Swagger/any documentation
-  
-  - API versioning (Adela?)
-  - (PhotoApi) Add token-based authentication
-</details>
-
-- PinterestClone format
-  Navbar --
-  - "PinterestClone": index home - show a landing page/splash page
-    - no API call
-  - "Home": photos index - shows all photos
-    - API GET - getAll()
-  - "You/yourname": photos index with parameter passed - API GET - getAll(userName = "my_name")
-
 ## Description
 
-C#/.NET Core API that allows access to photo URLs. This API includes all CRUD functionality to create, view, update, and delete photos in the database.
+C#/.NET Core API that allows access to photo URLs and MVC application that mimics pinterest. The API includes all CRUD functionality to create, view, update, and delete photos in the database. The MVC utilizes this API to display photos and also provides user authentication and authorization.
 
 ## Installation Requirements
 
 - Clone the repository on Github
 - Open the terminal on your desktop
 - \$git clone "insert your cloned URL here"
+
 - Change directory to the PhotoApi directory, within the PhotoApi.Solution directory
-- \$dotnet restore
-- Recreate my database structure with migration:
-  - \$dotnet ef migrations add Initial
-  - \$dotnet ef database update
-- Call this API with your web application or test out the requests using Postman.
 
-## User Stories
+  - \$dotnet restore
+  - Recreate our database structure with migration:
+    - \$dotnet ef migrations add Initial
+    - \$dotnet ef database update
+  - \$dotnet watch run (starts the API server at localhost:5000)
 
-- As a user, I want to be able to GET all photos related to a specific tag.
-- As a user, I want to be able to POST photos to a specific tag.
-- As a user, I want to be able to see a list of all tags.
-- As a user, I want to input date parameters and retrieve only photos posted during that timeframe.
-- As a user, I want to be able to PUT and DELETE photos, but only if I posted them.
+- Change directory to the PinterestClone directory, within the PhotoApi.Solution directory
+  - \$dotnet restore
+  - Recreate our database structure with migration:
+    - \$dotnet ef migrations add Initial
+    - \$dotnet ef database update
+  - \$dotnet watch run (starts the application server at localhost:5006)
+  - Open this in your browser to use the app!
+
+## API Documentation
+
+- Base url: http://localhost:5000
+
+#### Routes
+
+| Action                      | Method | Endpoint          |
+| :-------------------------- | :----- | :---------------- |
+| List all photos (paginated) | GET    | /api/photos       |
+| Retrieve specific photo     | GET    | /api/photos/{id}  |
+| Create photo                | POST   | /api/photos       |
+| Edit photo                  | PUT    | /api/photos/{id}  |
+| Delete photo                | DELETE | /api/photos/{id}  |
+| Count all photos            | DELETE | /api/photos/count |
+
+#### Search Parameters
+
+| Parameter | Type   | Example                | Response                                              |
+| :-------- | :----- | :--------------------- | :---------------------------------------------------- |
+| Title     | String | /?title=spring+break   | Photos with title "spring break"                      |
+| Tag       | String | /?tag=cool             | Photos with hashtag "cool"                            |
+| Url       | String | /?url=www.hello.com    | Photos with url of "www.hello.com"                    |
+| Username  | String | /?username=coolgirl101 | Photos posted by user coolgirl101                     |
+| Page      | Int    | /?page=2               | Page 2 of paginated photo results (default is page 1) |
+| Size      | Int    | /?size=25              | 25 photos per page (default is 20 and max is 100)     |
+
+#### Pagination
+
+- This API returns paginated results, with a default page size of 20 results per page and a max page size of 100 results per page.
+- The default page number is set to 1.
+- See the [search parameters](#search-parameters) above for information on how to adjust page size and number.
+
+#### Example Query
+
+- Example query: http://localhost:5000/api/photos/?title=spring+break&tag=cool&page=3&size=5
+
+  - This query returns photos with the title "spring break" and containing the hashtag "cool". It starts at page 3 with 5 results per page.
 
 ## Known Bugs
 

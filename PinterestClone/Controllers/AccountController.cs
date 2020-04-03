@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
+using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using PinterestClone.Models;
 using PinterestClone.ViewModels;
-using System;
 
 namespace PinterestClone.Controllers
 {
@@ -39,7 +39,7 @@ namespace PinterestClone.Controllers
 
       if (result.Succeeded)
       {
-        return RedirectToAction("Index");
+        return RedirectToAction("Login");
       }
       else
       {
@@ -55,7 +55,7 @@ namespace PinterestClone.Controllers
     [HttpPost]
     public async Task<ActionResult> Login(LoginViewModel model)
     {
-      Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
+      Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent : true, lockoutOnFailure : false);
       if (result.Succeeded)
       {
         return RedirectToAction("Index");
