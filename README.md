@@ -20,7 +20,7 @@
 
 ## Description
 
-C#/.NET Core API that allows access to photo URLs and MVC application that mimics pinterest. The API includes all CRUD functionality to create, view, update, and delete photos in the database. The MVC utilizes this API to display photos and also provides user authentication and authorization.
+C#/.NET Core API that allows access to photo URLs and MVC application that mimics pinterest. The API includes all CRUD functionality to create, view, update, and delete photos in the database. The MVC utilizes this API to display photos and also provides user authentication so that each photo is posted along with your username.
 
 ## Installation Requirements
 
