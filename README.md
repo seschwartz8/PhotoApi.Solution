@@ -1,6 +1,6 @@
 # Photo API and Pinterest Clone MVC Website
 
-#### C#/.NET Core API that allows access to photo URLs. Current version: 04.03.20
+#### C#/.NET Core API that allows access to photo URLs and MVC application that mimics pinterest. Current version: 04.03.20
 
 #### By Sarah "Sasa" Schwartz and Krista Rutz
 
